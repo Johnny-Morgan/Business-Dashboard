@@ -2,8 +2,22 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<BorderPane fx:controller="sample.Controller"
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<BorderPane fx:id="mainPanel" fx:controller="sample.Controller"
             xmlns:fx="http://javafx.com/fxml" >
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="Customers">
+                    <items>
+                        <MenuItem text="Add..." onAction="#showAddCustomerDialog"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
     <center>
         <TableView fx:id="customersTable">
             <columns>
