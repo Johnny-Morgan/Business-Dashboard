@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customers>
+<customer>
+	<first_name>John</first_name>
+	<last_name>Morgan</last_name>
+	<phone_number>jwjmorgan@gmail.com</phone_number>
+	<email>086 060 4249</email>
+</customer>
+<customer>
+	<first_name>Ted</first_name>
+	<last_name>Crilly</last_name>
+	<phone_number>ted@gmail.com</phone_number>
+	<email>087 123 4567</email>
+</customer>
+<customer>
+	<first_name>Dougal</first_name>
+	<last_name>McGuire</last_name>
+	<phone_number>888</phone_number>
+	<email>hhh</email>
+</customer>
+</customers>

@@ -2,7 +2,6 @@ package sample.datamodel;
 
 import javafx.beans.property.SimpleStringProperty;
 
-import java.time.LocalDate;
 
 /**
  * Created by Johnny on 27/02/2019
@@ -17,7 +16,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, String phoneNum, LocalDate dateLastContacted) {
+    public Customer(String firstName, String lastName, String email, String phoneNum) {
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.email = new SimpleStringProperty(email);
