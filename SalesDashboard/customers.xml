@@ -18,4 +18,16 @@
 	<phone_number>888</phone_number>
 	<email>hhh</email>
 </customer>
+<customer>
+	<first_name>Mary</first_name>
+	<last_name>Morgan</last_name>
+	<phone_number>087 670 9188</phone_number>
+	<email>marymm@yahoo.com</email>
+</customer>
+<customer>
+	<first_name>test</first_name>
+	<last_name>test</last_name>
+	<phone_number>2</phone_number>
+	<email>test</email>
+</customer>
 </customers>

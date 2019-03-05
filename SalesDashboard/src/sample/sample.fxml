@@ -13,6 +13,7 @@
                 <Menu text="Customers">
                     <items>
                         <MenuItem text="Add..." onAction="#showAddCustomerDialog"/>
+                        <MenuItem text="Edit..." onAction="#showEditCustomerDialog"/>
                     </items>
                 </Menu>
             </menus>

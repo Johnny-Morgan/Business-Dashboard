@@ -8,24 +8,28 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Customer {
 
-    private SimpleStringProperty firstName;
-    private SimpleStringProperty lastName;
-    private SimpleStringProperty email;
-    private SimpleStringProperty phoneNum;
+    private SimpleStringProperty firstName = new SimpleStringProperty("");
+    private SimpleStringProperty lastName = new SimpleStringProperty("");
+    private SimpleStringProperty phoneNum = new SimpleStringProperty("");
+    private SimpleStringProperty email = new SimpleStringProperty("");
+
 
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, String phoneNum) {
-        this.firstName = new SimpleStringProperty(firstName);
-        this.lastName = new SimpleStringProperty(lastName);
-        this.email = new SimpleStringProperty(email);
-        this.phoneNum = new SimpleStringProperty(phoneNum);
-
+    public Customer(String firstName, String lastName, String phoneNum, String email) {
+        this.firstName.set(firstName);
+        this.lastName.set(lastName);
+        this.phoneNum.set(phoneNum);
+        this.email.set(email);
     }
 
     public String getFirstName() {
         return firstName.get();
+    }
+
+    public SimpleStringProperty firstNameProperty() {
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -36,25 +40,35 @@ public class Customer {
         return lastName.get();
     }
 
+    public SimpleStringProperty lastNameProperty() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName.set(lastName);
-    }
-
-    public String getEmail() {
-        return email.get();
-    }
-
-    public void setEmail(String email) {
-        this.email.set(email);
     }
 
     public String getPhoneNum() {
         return phoneNum.get();
     }
 
+    public SimpleStringProperty phoneNumProperty() {
+        return phoneNum;
+    }
+
     public void setPhoneNum(String phoneNum) {
         this.phoneNum.set(phoneNum);
     }
 
+    public String getEmail() {
+        return email.get();
+    }
 
+    public SimpleStringProperty emailProperty() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email.set(email);
+    }
 }
