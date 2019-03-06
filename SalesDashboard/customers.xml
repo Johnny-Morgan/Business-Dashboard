@@ -3,31 +3,25 @@
 <customer>
 	<first_name>John</first_name>
 	<last_name>Morgan</last_name>
-	<phone_number>jwjmorgan@gmail.com</phone_number>
-	<email>086 060 4249</email>
+	<phone_number>086 060 4249</phone_number>
+	<email>jwjmorgan@gmail.com</email>
 </customer>
 <customer>
 	<first_name>Ted</first_name>
 	<last_name>Crilly</last_name>
-	<phone_number>ted@gmail.com</phone_number>
-	<email>087 123 4567</email>
+	<phone_number>087 123 4567</phone_number>
+	<email>ted@gmail.com</email>
 </customer>
 <customer>
 	<first_name>Dougal</first_name>
 	<last_name>McGuire</last_name>
-	<phone_number>888</phone_number>
-	<email>hhh</email>
+	<phone_number>085 142 6444</phone_number>
+	<email>dougal_mcg@gmail.com</email>
 </customer>
 <customer>
 	<first_name>Mary</first_name>
 	<last_name>Morgan</last_name>
 	<phone_number>087 670 9188</phone_number>
 	<email>marymm@yahoo.com</email>
-</customer>
-<customer>
-	<first_name>test</first_name>
-	<last_name>test</last_name>
-	<phone_number>2</phone_number>
-	<email>test</email>
 </customer>
 </customers>

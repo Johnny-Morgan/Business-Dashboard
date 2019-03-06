@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import sample.datamodel.Customer;
 
@@ -29,18 +30,22 @@ public class CustomerController {
         String phoneNum = phoneNumField.getText();
         String email = emailField.getText();
 
-//        if(phoneNum.equals("2"))
-//            phoneNumField.setStyle("-fx-color:red");
-
-//        if(isInt(phoneNumField)){
+//        if(!isInt(firstNameField, "Invalid First Name")){
 //            Customer newCustomer = new Customer(firstName, lastName, phoneNum, email);
 //            return newCustomer;
-//        }else{
-//            System.out.println("invalid entry");
-//            return null;
+//        }else {
+//            Customer newCustomer = new Customer("INVALID", lastName, phoneNum, email);
+//            return newCustomer;
 //        }
-        Customer newCustomer = new Customer(firstName, lastName, phoneNum, email);
-        return newCustomer;
+
+        if(isInt(phoneNumField, "Invalid Phone Number")) {
+            Customer newCustomer = new Customer(firstName, lastName, phoneNum, email);
+            return newCustomer;
+        } else{
+            Customer newCustomer = new Customer(firstName, lastName, "INVALID", email);
+            return newCustomer;
+        }
+
         /*
 
         verify input, check fields aren't empty
@@ -49,11 +54,14 @@ public class CustomerController {
          */
     }
 
-    private boolean isInt(TextField input){
+    private boolean isInt(TextField input, String message){
         try{
             Integer.parseInt(input.getText());
             return true;
         }catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING, message);
+            alert.setTitle("Invalid Data");
+            alert.showAndWait();
             return false;
         }
     }

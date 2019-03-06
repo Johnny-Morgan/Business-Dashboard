@@ -6,6 +6,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import sample.datamodel.Customer;
 import sample.datamodel.CustomerData;
@@ -90,6 +92,51 @@ public class Controller {
             customerController.updateCustomer(selectedCustomer);
             data.saveCustomers();
         }
-
     }
+
+    public void deleteCustomer(){
+        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No Customer Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the customer you want to delete");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Customer");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete customer: " +
+            selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            data.deleteCustomer(selectedCustomer);
+            data.saveCustomers();
+        }
+    }
+
+    // method to delete customer from table using Delete button
+    @FXML
+    public void handleKeyPressed(KeyEvent keyEvent) {
+        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer != null){
+            if(keyEvent.getCode().equals(KeyCode.DELETE)){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Delete Customer");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to delete customer: " +
+                        selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.isPresent() && result.get() == ButtonType.OK) {
+                    data.deleteCustomer(selectedCustomer);
+                    data.saveCustomers();
+                }
+            }
+        }
+    }
+
+
 }
