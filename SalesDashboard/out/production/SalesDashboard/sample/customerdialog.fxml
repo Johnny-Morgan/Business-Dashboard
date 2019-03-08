@@ -2,6 +2,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
 <DialogPane fx:controller="sample.CustomerController" xmlns:fx="http//javafx.com/fxml">
     <headerText>
         Fill in the information for the new Customer
@@ -19,6 +20,9 @@
 
             <Label text="Email Address: " GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <TextField fx:id="emailField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Last contact: " GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="dateField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
         </GridPane>
     </content>
 </DialogPane>

@@ -2,6 +2,11 @@ package sample.datamodel;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 
 /**
  * Created by Johnny on 27/02/2019
@@ -12,16 +17,19 @@ public class Customer {
     private SimpleStringProperty lastName = new SimpleStringProperty("");
     private SimpleStringProperty phoneNum = new SimpleStringProperty("");
     private SimpleStringProperty email = new SimpleStringProperty("");
+    private SimpleStringProperty date = new SimpleStringProperty("");
 
 
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String phoneNum, String email) {
+    public Customer(String firstName, String lastName, String phoneNum, String email, String date) {
+
         this.firstName.set(firstName);
         this.lastName.set(lastName);
         this.phoneNum.set(phoneNum);
         this.email.set(email);
+        this.date.set(date);
     }
 
     public String getFirstName() {
@@ -71,4 +79,19 @@ public class Customer {
     public void setEmail(String email) {
         this.email.set(email);
     }
+
+    public String getDate() {
+        return date.get();
+    }
+
+    public SimpleStringProperty dateProperty() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date.set(date);
+    }
+
+
+
 }

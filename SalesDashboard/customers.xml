@@ -5,23 +5,27 @@
 	<last_name>Morgan</last_name>
 	<phone_number>086 060 4249</phone_number>
 	<email>jwjmorgan@gmail.com</email>
+	<date>2019-03-07</date>
 </customer>
 <customer>
 	<first_name>Ted</first_name>
 	<last_name>Crilly</last_name>
 	<phone_number>087 123 4567</phone_number>
 	<email>ted@gmail.com</email>
+	<date>2019-03-07</date>
 </customer>
 <customer>
 	<first_name>Dougal</first_name>
 	<last_name>McGuire</last_name>
 	<phone_number>085 142 6444</phone_number>
 	<email>dougal_mcg@gmail.com</email>
+	<date>2019-02-25</date>
 </customer>
 <customer>
 	<first_name>Mary</first_name>
 	<last_name>Morgan</last_name>
 	<phone_number>087 670 9188</phone_number>
 	<email>marymm@yahoo.com</email>
+	<date>2019-03-08</date>
 </customer>
 </customers>

@@ -33,6 +33,7 @@ public class CustomerData {
     private static final String LAST_NAME = "last_name";
     private static final String PHONE_NUMBER = "phone_number";
     private static final String EMAIL = "email";
+    private static final String DATE = "date";
     private ObservableList<Customer> customers;
 
     public CustomerData() {
@@ -98,6 +99,13 @@ public class CustomerData {
                             .equals(EMAIL)) {
                         event = eventReader.nextEvent();
                         customer.setEmail(event.asCharacters().getData());
+                        continue;
+                    }
+
+                    if (event.asStartElement().getName().getLocalPart()
+                            .equals(DATE)) {
+                        event = eventReader.nextEvent();
+                        customer.setDate(event.asCharacters().getData());
                         continue;
                     }
 
@@ -171,6 +179,7 @@ public class CustomerData {
         createNode(eventWriter, LAST_NAME, customer.getLastName());
         createNode(eventWriter, PHONE_NUMBER, customer.getPhoneNum());
         createNode(eventWriter, EMAIL, customer.getEmail());
+        createNode(eventWriter, DATE, customer.getDate());
 
         eventWriter.add(eventFactory.createEndElement("", "", CUSTOMER));
         eventWriter.add(end);

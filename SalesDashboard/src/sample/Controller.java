@@ -8,16 +8,20 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import sample.datamodel.Customer;
 import sample.datamodel.CustomerData;
-
 import java.io.IOException;
 import java.util.Optional;
 
-public class Controller {
+public class Controller{
 
     @FXML
     private BorderPane mainPanel;
     @FXML
     private TableView<Customer> customersTable;
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button deleteButton;
+
 
     private CustomerData data;
 
@@ -25,8 +29,17 @@ public class Controller {
         data = new CustomerData();
         data.loadCustomers();
         customersTable.setItems(data.getCustomers());
+        editButton.setDisable(true);
+        deleteButton.setDisable(true);
     }
 
+    public void enableButtons(){
+        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer != null){
+            editButton.setDisable(false);
+            deleteButton.setDisable(false);
+        }
+    }
     @FXML
     public void showAddCustomerDialog(){
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();

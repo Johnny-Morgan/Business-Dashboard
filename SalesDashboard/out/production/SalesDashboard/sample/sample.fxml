@@ -24,7 +24,7 @@
         </MenuBar>
     </top>
     <center>
-        <TableView fx:id="customersTable" onKeyPressed="#handleKeyPressed">
+        <TableView fx:id="customersTable" onKeyPressed="#handleKeyPressed" onMouseClicked="#enableButtons">
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
@@ -49,6 +49,11 @@
                         <PropertyValueFactory property="email"/>
                     </cellValueFactory>
                 </TableColumn>
+                <TableColumn text="Last contacted">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="date"/>
+                    </cellValueFactory>
+                </TableColumn>
             </columns>
         </TableView>
     </center>
@@ -61,18 +66,18 @@
                 </tooltip>
             </Button>
 
-            <Button text="Edit Customer Details" onAction="#showEditCustomerDialog">
+            <Button fx:id="editButton" text="Edit Customer Details" onAction="#showEditCustomerDialog">
                 <tooltip>
                     <Tooltip text="Edit Customer Details"/>
                 </tooltip>
             </Button>
 
-            <Button text="Delete Customer" onAction="#deleteCustomer">
+            <Button fx:id="deleteButton" text="Delete Customer" onAction="#deleteCustomer">
                 <tooltip>
                     <Tooltip text="Delete a Customer"/>
                 </tooltip>
             </Button>
-            
+
         </HBox>
     </bottom>
 </BorderPane>
