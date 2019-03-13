@@ -3,7 +3,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.DatePicker?>
-<DialogPane fx:controller="sample.CustomerController" xmlns:fx="http//javafx.com/fxml">
+<DialogPane fx:controller="sample.CustomerDialogController" xmlns:fx="http//javafx.com/fxml">
     <headerText>
         Fill in the information for the new Customer
     </headerText>

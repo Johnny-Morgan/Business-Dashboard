@@ -1,104 +1,151 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import sample.datamodel.Customer;
+import sample.datamodel.CustomerData;
+import java.io.IOException;
+import java.util.Optional;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-
-
-/**
- * Created by Johnny on 28/02/2019
- *
- */
 public class CustomerController {
 
     @FXML
-    private TextField firstNameField;
-
+    private AnchorPane mainPanel;
     @FXML
-    private TextField lastNameField;
-
+    private TableView<Customer> customersTable;
     @FXML
-    private TextField phoneNumField;
-
+    private Button editButton;
     @FXML
-    private TextField emailField;
-
-    @FXML
-    private DatePicker dateField;
+    private Button deleteButton;
 
 
-    public Customer getNewCustomer() {
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
-        String phoneNum = phoneNumField.getText();
-        String email = emailField.getText();
-        String date = dateField.getValue().toString();
+    private CustomerData data;
 
-//        if(!isInt(firstNameField, "Invalid First Name")){
-//            Customer newCustomer = new Customer(firstName, lastName, phoneNum, email);
-//            return newCustomer;
-//        }else {
-//            Customer newCustomer = new Customer("INVALID", lastName, phoneNum, email);
-//            return newCustomer;
-//        }
-
-        if (isInt(phoneNumField, "Invalid Phone Number")) {
-            Customer newCustomer = new Customer(firstName, lastName, phoneNum, email, date);
-            return newCustomer;
-        } else {
-            Customer newCustomer = new Customer(firstName, lastName, "INVALID", email, date);
-            return newCustomer;
-        }
-
-        /*
-
-        verify input, check fields aren't empty
-        only enable dialog ok button when required fields are filled in by user
-
-         */
+    public void initialize(){
+        data = new CustomerData();
+        data.loadCustomers();
+        customersTable.setItems(data.getCustomers());
+        editButton.setDisable(true);
+        deleteButton.setDisable(true);
     }
 
-    private boolean isInt(TextField input, String message) {
-        try {
-            Integer.parseInt(input.getText());
-            return true;
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, message);
-            alert.setTitle("Invalid Data");
+    public void enableButtons(){
+        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer != null){
+            editButton.setDisable(false);
+            deleteButton.setDisable(false);
+        }
+    }
+    @FXML
+    public void showAddCustomerDialog(){
+        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+        dialog.initOwner(mainPanel.getScene().getWindow());
+        dialog.setTitle("Add New Customer");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("customerdialog.fxml"));
+        try{
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        }catch (IOException e){
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            CustomerDialogController customerDialogController = fxmlLoader.getController();
+            Customer newCustomer = customerDialogController.getNewCustomer();
+            data.addCustomer(newCustomer);
+            data.saveCustomers();
+        }
+    }
+
+    @FXML
+    public void showEditCustomerDialog(){
+        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No Customer Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the customer you want to edit");
             alert.showAndWait();
-            return false;
+            return;
+        }
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainPanel.getScene().getWindow());
+        dialog.setTitle("Edit Contact");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("customerdialog.fxml"));
+        try{
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        }catch(IOException e){
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        CustomerDialogController customerDialogController = fxmlLoader.getController();
+        customerDialogController.editCustomer(selectedCustomer);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            customerDialogController.updateCustomer(selectedCustomer);
+            data.saveCustomers();
         }
     }
 
-    public void editCustomer(Customer customer) {
-        firstNameField.setText(customer.getFirstName());
-        lastNameField.setText(customer.getLastName());
-        phoneNumField.setText(customer.getPhoneNum());
-        emailField.setText(customer.getEmail());
-        dateField.setValue(convertDate(customer.getDate()));
+    public void deleteCustomer(){
+        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No Customer Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the customer you want to delete");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Customer");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete customer: " +
+            selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            data.deleteCustomer(selectedCustomer);
+            data.saveCustomers();
+        }
     }
 
-    public void updateCustomer(Customer customer) {
-        customer.setFirstName(firstNameField.getText());
-        customer.setLastName(lastNameField.getText());
-        customer.setPhoneNum(phoneNumField.getText());
-        customer.setEmail(emailField.getText());
-        customer.setDate(dateField.getValue().toString());
-    }
-
-
-    // Method to convert String date to LocalDate
-    public LocalDate convertDate(String stringDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        return LocalDate.parse(stringDate, formatter);
+    // method to delete customer from table using Delete button
+    @FXML
+    public void handleKeyPressed(KeyEvent keyEvent) {
+        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer != null){
+            if(keyEvent.getCode().equals(KeyCode.DELETE)){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Delete Customer");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to delete customer: " +
+                        selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.isPresent() && result.get() == ButtonType.OK) {
+                    data.deleteCustomer(selectedCustomer);
+                    data.saveCustomers();
+                }
+            }
+        }
     }
 
 }

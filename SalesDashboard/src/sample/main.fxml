@@ -8,10 +8,15 @@
             fx:controller="sample.Main">
 
     <TabPane tabClosingPolicy="UNAVAILABLE">
-        <Tab text="Customers" >
-            <fx:include fx:id="customerTab" source="customers.fxml"/>
-        </Tab>
+            <Tab text="Customers" >
+                <fx:include  source="customers.fxml"/>
+            </Tab>
+            <Tab text="To do List" >
+                <fx:include source="todo.fxml"/>
+            </Tab>
+
     </TabPane>
+
 
 </AnchorPane>
 

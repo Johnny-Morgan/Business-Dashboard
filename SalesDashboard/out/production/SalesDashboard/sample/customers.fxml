@@ -9,8 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane fx:id="mainPanel" fx:controller="sample.Controller"
-            xmlns:fx="http://javafx.com/fxml">
+<AnchorPane fx:id="mainPanel" fx:controller="sample.CustomerController" xmlns:fx="http://javafx.com/fxml">
+
 <BorderPane prefWidth="1000" prefHeight="450">
     <top>
         <!--<MenuBar>-->
@@ -62,19 +62,19 @@
     <bottom>
         <HBox spacing="10" alignment="CENTER">
 
-            <Button text="Add New Customer" onAction="#showAddCustomerDialog">
+            <Button text="Add New Customer" onAction="#showAddCustomerDialog" style="-fx-background-color: green; -fx-text-fill: white">
                 <tooltip>
                     <Tooltip text="Add a New Customer"/>
                 </tooltip>
             </Button>
 
-            <Button fx:id="editButton" text="Edit Customer Details" onAction="#showEditCustomerDialog">
+            <Button fx:id="editButton" text="Edit Customer Details" onAction="#showEditCustomerDialog" style="-fx-background-color: #e74c3c; -fx-text-fill: white">
                 <tooltip>
                     <Tooltip text="Edit Customer Details"/>
                 </tooltip>
             </Button>
 
-            <Button fx:id="deleteButton" text="Delete Customer" onAction="#deleteCustomer">
+            <Button fx:id="deleteButton" text="Delete Customer" onAction="#deleteCustomer" style="-fx-background-color: #3498db; -fx-text-fill: white">
                 <tooltip>
                     <Tooltip text="Delete a Customer"/>
                 </tooltip>

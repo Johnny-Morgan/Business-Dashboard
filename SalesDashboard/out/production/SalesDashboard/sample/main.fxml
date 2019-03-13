@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -9,13 +8,15 @@
             fx:controller="sample.Main">
 
     <TabPane tabClosingPolicy="UNAVAILABLE">
-        <Tab text="Customers" >
-            <fx:include fx:id="customerTab" source="customers.fxml"/>
-        </Tab>
-        <Tab text="Todo List" >
-            <fx:include fx:id="todoTab" source="customers.fxml"/>
-        </Tab>
+            <Tab text="Customers" >
+                <fx:include  source="customers.fxml"/>
+            </Tab>
+            <Tab text="To do List" >
+                <fx:include source="todo.fxml"/>
+            </Tab>
+
     </TabPane>
+
 
 </AnchorPane>
 
