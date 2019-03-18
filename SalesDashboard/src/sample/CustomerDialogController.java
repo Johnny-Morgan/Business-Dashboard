@@ -52,7 +52,7 @@ public class CustomerDialogController {
             Customer newCustomer = new Customer(firstName, lastName, phoneNum, email, date);
             return newCustomer;
         } else {
-            Customer newCustomer = new Customer(firstName, lastName, "INVALID", email, date);
+            Customer newCustomer = new Customer(firstName, lastName, "Invalid No.", email, date);
             return newCustomer;
         }
 

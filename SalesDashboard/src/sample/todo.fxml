@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<AnchorPane fx:id="mainPanel2" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="sample.TodoController">
+<AnchorPane fx:id="mainPanelTodo" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="sample.TodoController">
 
-    <BorderPane prefWidth="1000" prefHeight="450">
+    <BorderPane prefWidth="1000" prefHeight="525">
         <top>
             <VBox>
                 <MenuBar>
@@ -25,17 +25,33 @@
                 </MenuBar>
                 <ToolBar>
                     <HBox spacing="10">
-                        <Button text="New todo Item" onAction="#showNewItemDialog" style="-fx-background-color: green; -fx-text-fill: white">
-                        <tooltip>
-                            <Tooltip text="Add a New Todo Item"/>
-                        </tooltip>
-                    </Button>
 
                         <ToggleButton fx:id="filterToggleButton" text="Today's Items" onAction="#handleFilterButton">
                             <tooltip>
                                 <Tooltip text="Button Down: Show Today's items only. Button Up: Show all items"/>
                             </tooltip>
                         </ToggleButton>
+
+                        <Button text="New todo Item" onAction="#showNewItemDialog" style="-fx-background-color: green; -fx-text-fill: white">
+                            <tooltip>
+                                <Tooltip text="Add a New Todo Item"/>
+                            </tooltip>
+                        </Button>
+
+
+                        <Button text="Edit todo Item"  onAction="#showEditTodoItemDialog" style="-fx-background-color: #3498db; -fx-text-fill: white">
+                            <tooltip>
+                                <Tooltip text="Add a New Todo Item"/>
+                            </tooltip>
+                        </Button>
+
+
+                        <Button fx:id="deleteButton" text="Delete todo Item"  onAction="#deleteItem" style="-fx-background-color: #e74c3c; -fx-text-fill: white">
+                            <tooltip>
+                                <Tooltip text="Add a New Todo Item"/>
+                            </tooltip>
+                        </Button>
+
                     </HBox>
                 </ToolBar>
             </VBox>
@@ -49,10 +65,10 @@
         <center>
             <VBox style="-fx-background-color: white">
                 <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/>
-                <HBox>
+                <HBox prefHeight="40">
                     <Label text="Due: "  >
                         <font>
-                            <Font  name="System Bold" size="16"/>
+                            <Font name="System Bold" size="16"/>
                         </font>
                     </Label>
                     <Label fx:id="deadlineLabel" >

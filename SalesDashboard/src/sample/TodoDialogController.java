@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import sample.datamodel.Customer;
 import sample.datamodel.TodoData;
 import sample.datamodel.TodoItem;
 
@@ -30,5 +31,20 @@ public class TodoDialogController {
         TodoData.getInstance().addTodoItem(newItem);
         return newItem;
     }
+
+    public void editItem(TodoItem item) {
+        shortDescriptionField.setText(item.getShortDescription());
+        detailsArea.setText(item.getDetails());
+        deadlinePicker.setValue(item.getDeadline());
+    }
+
+    public void updateItem(TodoItem item) {
+        item.setShortDescription(shortDescriptionField.getText());
+        item.setDetails(detailsArea.getText());
+        item.setDeadline(deadlinePicker.getValue());
+
+    }
+
+
 }
 

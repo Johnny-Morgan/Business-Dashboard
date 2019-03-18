@@ -1,6 +1,7 @@
 package sample.datamodel;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,11 +26,36 @@ public class Customer {
 
     public Customer(String firstName, String lastName, String phoneNum, String email, String date) {
 
-        this.firstName.set(firstName);
-        this.lastName.set(lastName);
-        this.phoneNum.set(phoneNum);
-        this.email.set(email);
-        this.date.set(date);
+        if(firstName != null && !firstName.trim().equals(""))
+            this.firstName.set(firstName);
+        else
+            this.firstName.set("Unknown");
+
+        if(lastName != null && !lastName.trim().equals(""))
+            this.lastName.set(lastName);
+        else
+            this.lastName.set("Unknown");
+
+        if(phoneNum != null && !phoneNum.trim().equals(""))
+            this.phoneNum.set(phoneNum);
+        else
+            this.phoneNum.set("Unknown");
+
+        if(email != null && !email.trim().equals(""))
+            this.email.set(email);
+        else
+            this.email.set("Unknown");
+
+        if(date != null && !date.trim().equals(""))
+            this.date.set(date);
+        else
+            this.date.set("2019/01/01");
+
+//        this.firstName.set(firstName);
+//        this.lastName.set(lastName);
+//        this.phoneNum.set(phoneNum);
+//        this.email.set(email);
+//        this.date.set(date);
     }
 
     public String getFirstName() {
@@ -41,7 +67,10 @@ public class Customer {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName.set(firstName);
+        if(firstName != null && !firstName.trim().equals(""))
+            this.firstName.set(firstName);
+        else
+            this.firstName.set("Unknown");
     }
 
     public String getLastName() {

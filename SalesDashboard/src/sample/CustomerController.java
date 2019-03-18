@@ -8,6 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import sample.datamodel.Customer;
 import sample.datamodel.CustomerData;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -22,10 +23,9 @@ public class CustomerController {
     @FXML
     private Button deleteButton;
 
-
     private CustomerData data;
 
-    public void initialize(){
+    public void initialize() {
         data = new CustomerData();
         data.loadCustomers();
         customersTable.setItems(data.getCustomers());
@@ -33,23 +33,24 @@ public class CustomerController {
         deleteButton.setDisable(true);
     }
 
-    public void enableButtons(){
+    public void enableButtons() {
         Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer != null){
+        if (selectedCustomer != null) {
             editButton.setDisable(false);
             deleteButton.setDisable(false);
         }
     }
+
     @FXML
-    public void showAddCustomerDialog(){
+    public void showAddCustomerDialog() {
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         dialog.initOwner(mainPanel.getScene().getWindow());
         dialog.setTitle("Add New Customer");
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("customerdialog.fxml"));
-        try{
+        try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Couldn't load the dialog");
             e.printStackTrace();
             return;
@@ -59,18 +60,43 @@ public class CustomerController {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
         Optional<ButtonType> result = dialog.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK){
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             CustomerDialogController customerDialogController = fxmlLoader.getController();
             Customer newCustomer = customerDialogController.getNewCustomer();
+
             data.addCustomer(newCustomer);
             data.saveCustomers();
-        }
+//            boolean check = validateFields(newCustomer);
+//            if (check) {
+//                data.addCustomer(newCustomer);
+//                data.saveCustomers();
+//            }
+
     }
 
+
+//            do {
+//                if (!validateFields(newCustomer)) {
+//                    System.out.println("invalid data");
+//                    dialog.showAndWait();
+//                    newCustomer = customerDialogController.getNewCustomer();
+//                } else {
+//                    System.out.println("valid data");
+//                    data.addCustomer(newCustomer);
+//                    data.saveCustomers();
+//                    break;
+//                }
+//            }while(!check);
+
+
+}
+
+
     @FXML
-    public void showEditCustomerDialog(){
+    public void showEditCustomerDialog() {
         Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer == null){
+        if (selectedCustomer == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("No Customer Selected");
             alert.setHeaderText(null);
@@ -83,9 +109,9 @@ public class CustomerController {
         dialog.setTitle("Edit Contact");
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("customerdialog.fxml"));
-        try{
+        try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("Couldn't load the dialog");
             e.printStackTrace();
             return;
@@ -98,15 +124,15 @@ public class CustomerController {
         customerDialogController.editCustomer(selectedCustomer);
 
         Optional<ButtonType> result = dialog.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK){
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             customerDialogController.updateCustomer(selectedCustomer);
             data.saveCustomers();
         }
     }
 
-    public void deleteCustomer(){
+    public void deleteCustomer() {
         Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer == null){
+        if (selectedCustomer == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("No Customer Selected");
             alert.setHeaderText(null);
@@ -119,10 +145,10 @@ public class CustomerController {
         alert.setTitle("Delete Customer");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to delete customer: " +
-            selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
+                selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
 
         Optional<ButtonType> result = alert.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK){
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             data.deleteCustomer(selectedCustomer);
             data.saveCustomers();
         }
@@ -132,20 +158,37 @@ public class CustomerController {
     @FXML
     public void handleKeyPressed(KeyEvent keyEvent) {
         Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer != null){
-            if(keyEvent.getCode().equals(KeyCode.DELETE)){
+        if (selectedCustomer != null) {
+            if (keyEvent.getCode().equals(KeyCode.DELETE)) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Delete Customer");
                 alert.setHeaderText(null);
                 alert.setContentText("Are you sure you want to delete customer: " +
                         selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
                 Optional<ButtonType> result = alert.showAndWait();
-                if(result.isPresent() && result.get() == ButtonType.OK) {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
                     data.deleteCustomer(selectedCustomer);
                     data.saveCustomers();
                 }
             }
         }
     }
+
+    public boolean validateFields(Customer customer) {
+
+        if (customer.getFirstName().trim().isEmpty() ||
+                customer.getLastName().trim().isEmpty() || customer.getPhoneNum().trim().isEmpty() ||
+                customer.getEmail().trim().isEmpty() || customer.getDate().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Incorrect info");
+            alert.setHeaderText(null);
+            alert.setContentText("All fields must be completed. Please try again");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+
+    }
+
 
 }

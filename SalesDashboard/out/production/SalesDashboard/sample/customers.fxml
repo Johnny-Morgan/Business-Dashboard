@@ -9,9 +9,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
 <AnchorPane fx:id="mainPanel" fx:controller="sample.CustomerController" xmlns:fx="http://javafx.com/fxml">
 
-<BorderPane prefWidth="1000" prefHeight="450">
+<BorderPane prefWidth="1000" prefHeight="510" >
     <top>
         <!--<MenuBar>-->
             <!--<menus>-->
@@ -60,24 +61,39 @@
         </TableView>
     </center>
     <bottom>
-        <HBox spacing="10" alignment="CENTER">
+        <HBox spacing="10" alignment="CENTER" maxHeight="15">
 
             <Button text="Add New Customer" onAction="#showAddCustomerDialog" style="-fx-background-color: green; -fx-text-fill: white">
                 <tooltip>
                     <Tooltip text="Add a New Customer"/>
                 </tooltip>
+                <HBox.margin>
+                    <Insets>
+                        <top>10</top>
+                    </Insets>
+                </HBox.margin>
             </Button>
 
-            <Button fx:id="editButton" text="Edit Customer Details" onAction="#showEditCustomerDialog" style="-fx-background-color: #e74c3c; -fx-text-fill: white">
+            <Button fx:id="editButton" text="Edit Customer Details" onAction="#showEditCustomerDialog" style="-fx-background-color: #3498db; -fx-text-fill: white">
                 <tooltip>
                     <Tooltip text="Edit Customer Details"/>
                 </tooltip>
+                <HBox.margin>
+                    <Insets>
+                        <top>10</top>
+                    </Insets>
+                </HBox.margin>
             </Button>
 
-            <Button fx:id="deleteButton" text="Delete Customer" onAction="#deleteCustomer" style="-fx-background-color: #3498db; -fx-text-fill: white">
+            <Button fx:id="deleteButton" text="Delete Customer" onAction="#deleteCustomer" style="-fx-background-color: #e74c3c; -fx-text-fill: white">
                 <tooltip>
                     <Tooltip text="Delete a Customer"/>
                 </tooltip>
+                <HBox.margin>
+                    <Insets>
+                        <top>10</top>
+                    </Insets>
+                </HBox.margin>
             </Button>
 
         </HBox>
