@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <AnchorPane fx:id="mainPanelTodo" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="sample.TodoController">
 
     <BorderPane prefWidth="1000" prefHeight="525">
         <top>
             <VBox>
-                <MenuBar>
-                    <!--<Menu text="File">-->
-                        <!--<items>-->
-                            <!--<MenuItem text="New..." onAction="#showNewItemDialog"/>-->
-                            <!--<SeparatorMenuItem/>-->
-                            <!--<MenuItem text="Exit" onAction="#handleExit"/>-->
-                        <!--</items>-->
-                    <!--</Menu>-->
-                </MenuBar>
                 <ToolBar>
                     <HBox spacing="10">
 

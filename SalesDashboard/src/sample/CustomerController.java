@@ -11,6 +11,8 @@ import sample.datamodel.CustomerData;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CustomerController {
 
@@ -65,8 +67,11 @@ public class CustomerController {
             CustomerDialogController customerDialogController = fxmlLoader.getController();
             Customer newCustomer = customerDialogController.getNewCustomer();
 
-            data.addCustomer(newCustomer);
-            data.saveCustomers();
+            if(validateFields(newCustomer) && validateFirstName(newCustomer) && validateLastName(newCustomer) &&
+                    validateEmail(newCustomer) && validatePhoneNum(newCustomer)) {
+                data.addCustomer(newCustomer);
+                data.saveCustomers();
+            }
 //            boolean check = validateFields(newCustomer);
 //            if (check) {
 //                data.addCustomer(newCustomer);
@@ -174,6 +179,7 @@ public class CustomerController {
         }
     }
 
+    // check to see if fields are empty
     public boolean validateFields(Customer customer) {
 
         if (customer.getFirstName().trim().isEmpty() ||
@@ -190,5 +196,64 @@ public class CustomerController {
 
     }
 
+    public boolean validateFirstName(Customer customer){
+        Pattern p = Pattern.compile("[a-zA-Z]+");
+        Matcher m = p.matcher(customer.getFirstName());
+        if(m.find() && m.group().equals(customer.getFirstName())){
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Info");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Enter Valid First Name");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
+    public boolean validateLastName(Customer customer){
+        Pattern p = Pattern.compile("[a-zA-Z']+");
+        Matcher m = p.matcher(customer.getLastName());
+        if(m.find() && m.group().equals(customer.getLastName())){
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Info");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Enter Valid Last Name");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
+    public boolean validateEmail(Customer customer){
+        Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
+        Matcher m = p.matcher(customer.getEmail());
+        if(m.find() && m.group().equals(customer.getEmail())){
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Info");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Enter Valid Email Address");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
+    public boolean validatePhoneNum(Customer customer){
+        Pattern p = Pattern.compile("^\\+?[\\d ]+");
+        Matcher m = p.matcher(customer.getPhoneNum());
+        if(m.find() && m.group().equals(customer.getPhoneNum())){
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Info");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Enter Valid Phone Number");
+            alert.showAndWait();
+            return false;
+        }
+    }
 
 }

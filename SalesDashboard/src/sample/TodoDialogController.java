@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import sample.datamodel.Customer;
 import sample.datamodel.TodoData;
 import sample.datamodel.TodoItem;
 

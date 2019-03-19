@@ -19,7 +19,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-
 /**
  * Created by Johnny on 27/02/2019
  */

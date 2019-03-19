@@ -16,7 +16,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
-import sample.datamodel.Customer;
 import sample.datamodel.TodoData;
 import sample.datamodel.TodoItem;
 
