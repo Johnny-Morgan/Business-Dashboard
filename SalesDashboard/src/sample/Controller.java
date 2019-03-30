@@ -2,52 +2,39 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
-import sample.datamodel.Customer;
-import sample.datamodel.CustomerData;
+import sample.datamodel.Expense;
+import sample.datamodel.ExpenseData;
+
 import java.io.IOException;
 import java.util.Optional;
 
-public class Controller{
+public class Controller {
 
     @FXML
-    private AnchorPane mainPanel;
-    @FXML
-    private TableView<Customer> customersTable;
-    @FXML
-    private Button editButton;
-    @FXML
-    private Button deleteButton;
+    private BorderPane mainPanel;
 
-
-    private CustomerData data;
+    @FXML
+    private TableView<Expense> expensesTable;
+    private ExpenseData data;
 
     public void initialize(){
-        data = new CustomerData();
-        data.loadCustomers();
-        customersTable.setItems(data.getCustomers());
-        editButton.setDisable(true);
-        deleteButton.setDisable(true);
+        data = new ExpenseData();
+        data.loadExpenses();
+        expensesTable.setItems(data.getExpenses());
     }
 
-    public void enableButtons(){
-        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer != null){
-            editButton.setDisable(false);
-            deleteButton.setDisable(false);
-        }
-    }
     @FXML
-    public void showAddCustomerDialog(){
+    public void showAddExpenseDialog(){
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         dialog.initOwner(mainPanel.getScene().getWindow());
-        dialog.setTitle("Add New Customer");
+        dialog.setTitle("Add New Expense");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("customerdialog.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("expensedialog.fxml"));
         try{
             dialog.getDialogPane().setContent(fxmlLoader.load());
         }catch (IOException e){
@@ -55,35 +42,35 @@ public class Controller{
             e.printStackTrace();
             return;
         }
-
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
         Optional<ButtonType> result = dialog.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
-            CustomerController customerController = fxmlLoader.getController();
-            Customer newCustomer = customerController.getNewCustomer();
-            data.addCustomer(newCustomer);
-            data.saveCustomers();
+            ExpenseController expenseController = fxmlLoader.getController();
+            Expense newExpense = expenseController.getNewExpense();
+            data.addExpense(newExpense);
+            data.saveExpenses();
         }
     }
 
     @FXML
-    public void showEditCustomerDialog(){
-        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer == null){
+    public void showEditExpenseDialog(){
+        Expense selectedExpense = expensesTable.getSelectionModel().getSelectedItem();
+        if(selectedExpense == null){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("No Customer Selected");
+            alert.setTitle("No Expense Selected");
             alert.setHeaderText(null);
-            alert.setContentText("Please select the customer you want to edit");
+            alert.setContentText("Please select the expense you want to edit");
             alert.showAndWait();
             return;
         }
+
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(mainPanel.getScene().getWindow());
-        dialog.setTitle("Edit Contact");
+        dialog.setTitle("Edit Expense");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("customerdialog.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("expensedialog.fxml"));
         try{
             dialog.getDialogPane().setContent(fxmlLoader.load());
         }catch(IOException e){
@@ -95,58 +82,13 @@ public class Controller{
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
-        CustomerController customerController = fxmlLoader.getController();
-        customerController.editCustomer(selectedCustomer);
+        ExpenseController expenseController = fxmlLoader.getController();
+        expenseController.editExpense(selectedExpense);
 
         Optional<ButtonType> result = dialog.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK){
-            customerController.updateCustomer(selectedCustomer);
-            data.saveCustomers();
+        if(result.isPresent() && result.get() == ButtonType.OK) {
+            expenseController.updateExpense(selectedExpense);
+            data.saveExpenses();
         }
     }
-
-    public void deleteCustomer(){
-        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer == null){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("No Customer Selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select the customer you want to delete");
-            alert.showAndWait();
-            return;
-        }
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Customer");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete customer: " +
-            selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK){
-            data.deleteCustomer(selectedCustomer);
-            data.saveCustomers();
-        }
-    }
-
-    // method to delete customer from table using Delete button
-    @FXML
-    public void handleKeyPressed(KeyEvent keyEvent) {
-        Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        if(selectedCustomer != null){
-            if(keyEvent.getCode().equals(KeyCode.DELETE)){
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Delete Customer");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to delete customer: " +
-                        selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "?");
-                Optional<ButtonType> result = alert.showAndWait();
-                if(result.isPresent() && result.get() == ButtonType.OK) {
-                    data.deleteCustomer(selectedCustomer);
-                    data.saveCustomers();
-                }
-            }
-        }
-    }
-
 }
