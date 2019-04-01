@@ -3,9 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane fx:id="mainPanelTodo" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="sample.TodoController">
+<?import javafx.geometry.Insets?>
+<AnchorPane fx:id="mainPanelTodo" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.TodoController">
 
-    <BorderPane prefWidth="1000" prefHeight="525">
+    <BorderPane prefWidth="1000" prefHeight="510">
         <top>
             <VBox>
                 <ToolBar>
@@ -17,25 +19,7 @@
                             </tooltip>
                         </ToggleButton>
 
-                        <Button text="New todo Item" onAction="#showNewItemDialog" style="-fx-background-color: green; -fx-text-fill: white">
-                            <tooltip>
-                                <Tooltip text="Add a New Todo Item"/>
-                            </tooltip>
-                        </Button>
 
-
-                        <Button text="Edit todo Item"  onAction="#showEditTodoItemDialog" style="-fx-background-color: #3498db; -fx-text-fill: white">
-                            <tooltip>
-                                <Tooltip text="Add a New Todo Item"/>
-                            </tooltip>
-                        </Button>
-
-
-                        <Button fx:id="deleteButton" text="Delete todo Item"  onAction="#deleteItem" style="-fx-background-color: #e74c3c; -fx-text-fill: white">
-                            <tooltip>
-                                <Tooltip text="Add a New Todo Item"/>
-                            </tooltip>
-                        </Button>
 
                     </HBox>
                 </ToolBar>
@@ -43,7 +27,7 @@
 
         </top>
         <left>
-            <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed">
+            <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed" onMouseClicked="#enableButtons">
 
             </ListView>
         </left>
@@ -51,18 +35,64 @@
             <VBox style="-fx-background-color: white">
                 <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/>
                 <HBox prefHeight="40">
-                    <Label text="Due: "  >
+                    <Label text="Due: ">
                         <font>
                             <Font name="System Bold" size="16"/>
                         </font>
                     </Label>
-                    <Label fx:id="deadlineLabel" >
-                        <font >
+                    <Label fx:id="deadlineLabel">
+                        <font>
                             <Font name="System Bold" size="16"/>
                         </font>
                     </Label>
                 </HBox>
             </VBox>
         </center>
+
+        <bottom>
+
+            <HBox spacing="10" alignment="CENTER" maxHeight="15">
+
+                <Button text="New todo Item" onAction="#showNewItemDialog"
+                        style="-fx-background-color: green; -fx-text-fill: white">
+                    <tooltip>
+                        <Tooltip text="Add a New Todo Item"/>
+                    </tooltip>
+                    <HBox.margin>
+                        <Insets>
+                            <top>10</top>
+                        </Insets>
+                    </HBox.margin>
+                </Button>
+
+
+                <Button fx:id="editButton" text="Edit todo Item" onAction="#showEditTodoItemDialog"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white">
+                    <tooltip>
+                        <Tooltip text="Add a New Todo Item"/>
+                    </tooltip>
+                    <HBox.margin>
+                        <Insets>
+                            <top>10</top>
+                        </Insets>
+                    </HBox.margin>
+                </Button>
+
+
+                <Button fx:id="deleteButton" text="Delete todo Item" onAction="#deleteItem"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white">
+                    <tooltip>
+                        <Tooltip text="Add a New Todo Item"/>
+                    </tooltip>
+                    <HBox.margin>
+                        <Insets>
+                            <top>10</top>
+                        </Insets>
+                    </HBox.margin>
+                </Button>
+
+            </HBox>
+
+        </bottom>
     </BorderPane>
 </AnchorPane>

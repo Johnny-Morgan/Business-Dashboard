@@ -20,31 +20,6 @@ public class Customer {
 
     public Customer(String firstName, String lastName, String phoneNum, String email, String date) {
 
-//        if(firstName != null && !firstName.trim().equals(""))
-//            this.firstName.set(firstName);
-//        else
-//            this.firstName.set("Unknown");
-//
-//        if(lastName != null && !lastName.trim().equals(""))
-//            this.lastName.set(lastName);
-//        else
-//            this.lastName.set("Unknown");
-//
-//        if(phoneNum != null && !phoneNum.trim().equals(""))
-//            this.phoneNum.set(phoneNum);
-//        else
-//            this.phoneNum.set("Unknown");
-//
-//        if(email != null && !email.trim().equals(""))
-//            this.email.set(email);
-//        else
-//            this.email.set("Unknown");
-//
-//        if(date != null && !date.trim().equals(""))
-//            this.date.set(date);
-//        else
-//            this.date.set("2019/01/01");
-
         this.firstName.set(firstName);
         this.lastName.set(lastName);
         this.phoneNum.set(phoneNum);

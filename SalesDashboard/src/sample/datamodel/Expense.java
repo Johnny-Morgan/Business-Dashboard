@@ -12,11 +12,14 @@ public class Expense {
     private SimpleStringProperty amount = new SimpleStringProperty("");
     private SimpleStringProperty date = new SimpleStringProperty("");
 
-    public Expense(SimpleStringProperty description, SimpleStringProperty category, SimpleStringProperty amount, SimpleStringProperty date) {
-        this.description = description;
-        this.category = category;
-        this.amount = amount;
-        this.date = date;
+    public Expense(){
+
+    }
+    public Expense(String description, String category, String amount, String date) {
+        this.description.set(description);
+        this.category.set(category);
+        this.amount.set(amount);
+        this.date.set(date);
     }
 
     public String getDescription() {

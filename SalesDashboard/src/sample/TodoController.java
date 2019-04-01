@@ -48,6 +48,8 @@ public class TodoController {
     @FXML
     private ToggleButton filterToggleButton;
     @FXML
+    private Button editButton;
+    @FXML
     private Button deleteButton;
     private FilteredList<TodoItem> filteredList;
 
@@ -55,6 +57,9 @@ public class TodoController {
     private Predicate<TodoItem> wantTodaysItems;
 
     public void initialize() {
+
+        editButton.setDisable(true);
+        deleteButton.setDisable(true);
 
         listContextMenu = new ContextMenu();
         MenuItem deleteMenuItem = new MenuItem("Delete");
@@ -153,6 +158,14 @@ public class TodoController {
                 return cell;
             }
         });
+    }
+
+    public void enableButtons() {
+        TodoItem selectedItem = todoListView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            editButton.setDisable(false);
+            deleteButton.setDisable(false);
+        }
     }
 
     @FXML

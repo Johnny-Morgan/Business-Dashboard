@@ -67,35 +67,16 @@ public class CustomerController {
             CustomerDialogController customerDialogController = fxmlLoader.getController();
             Customer newCustomer = customerDialogController.getNewCustomer();
 
-            if(validateFields(newCustomer) && validateFirstName(newCustomer) && validateLastName(newCustomer) &&
-                    validateEmail(newCustomer) && validatePhoneNum(newCustomer)) {
+            boolean check = validateFields(newCustomer) && validateFirstName(newCustomer) &&
+                    validateLastName(newCustomer) && validatePhoneNum(newCustomer) && validateEmail(newCustomer);
+            if (check) {
                 data.addCustomer(newCustomer);
                 data.saveCustomers();
+            } else {
+                showAddCustomerDialog();
             }
-//            boolean check = validateFields(newCustomer);
-//            if (check) {
-//                data.addCustomer(newCustomer);
-//                data.saveCustomers();
-//            }
-
+        }
     }
-
-
-//            do {
-//                if (!validateFields(newCustomer)) {
-//                    System.out.println("invalid data");
-//                    dialog.showAndWait();
-//                    newCustomer = customerDialogController.getNewCustomer();
-//                } else {
-//                    System.out.println("valid data");
-//                    data.addCustomer(newCustomer);
-//                    data.saveCustomers();
-//                    break;
-//                }
-//            }while(!check);
-
-
-}
 
 
     @FXML
@@ -186,9 +167,9 @@ public class CustomerController {
                 customer.getLastName().trim().isEmpty() || customer.getPhoneNum().trim().isEmpty() ||
                 customer.getEmail().trim().isEmpty() || customer.getDate().trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Incorrect info");
+            alert.setTitle("Invalid info");
             alert.setHeaderText(null);
-            alert.setContentText("All fields must be completed. Please try again");
+            alert.setContentText("Invalid info. Please try again");
             alert.showAndWait();
             return false;
         }
@@ -196,10 +177,10 @@ public class CustomerController {
 
     }
 
-    public boolean validateFirstName(Customer customer){
+    public boolean validateFirstName(Customer customer) {
         Pattern p = Pattern.compile("[a-zA-Z]+");
         Matcher m = p.matcher(customer.getFirstName());
-        if(m.find() && m.group().equals(customer.getFirstName())){
+        if (m.find() && m.group().equals(customer.getFirstName())) {
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -211,10 +192,10 @@ public class CustomerController {
         }
     }
 
-    public boolean validateLastName(Customer customer){
+    public boolean validateLastName(Customer customer) {
         Pattern p = Pattern.compile("[a-zA-Z']+");
         Matcher m = p.matcher(customer.getLastName());
-        if(m.find() && m.group().equals(customer.getLastName())){
+        if (m.find() && m.group().equals(customer.getLastName())) {
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -226,10 +207,10 @@ public class CustomerController {
         }
     }
 
-    public boolean validateEmail(Customer customer){
+    public boolean validateEmail(Customer customer) {
         Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
         Matcher m = p.matcher(customer.getEmail());
-        if(m.find() && m.group().equals(customer.getEmail())){
+        if (m.find() && m.group().equals(customer.getEmail())) {
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -241,10 +222,10 @@ public class CustomerController {
         }
     }
 
-    public boolean validatePhoneNum(Customer customer){
+    public boolean validatePhoneNum(Customer customer) {
         Pattern p = Pattern.compile("^\\+?[\\d ]+");
         Matcher m = p.matcher(customer.getPhoneNum());
-        if(m.find() && m.group().equals(customer.getPhoneNum())){
+        if (m.find() && m.group().equals(customer.getPhoneNum())) {
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);

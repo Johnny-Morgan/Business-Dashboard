@@ -17,10 +17,13 @@
             <fx:include source="todo.fxml"/>
         </Tab>
 
-        <Tab text="Sales">
-            <fx:include source="sales.fxml"/>
-        </Tab>
+        <!--<Tab text="Sales">-->
+            <!--<fx:include source="sales.fxml"/>-->
+        <!--</Tab>-->
 
+        <Tab text="Expenses">
+            <fx:include source="expenses.fxml"/>
+        </Tab>
     </TabPane>
 
 

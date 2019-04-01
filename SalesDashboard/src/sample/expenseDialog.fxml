@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.control.DatePicker?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.ExpenseDialogController">
+
+    <headerText>
+        Fill in expenses information
+    </headerText>
+    <content>
+        <GridPane vgap="10" hgap="10">
+            <Label text="Description: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="descriptionField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Category: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="categoryField" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Motor"/>
+                        <String fx:value="Phone/Broadband"/>
+                        <String fx:value="Heat/Light"/>
+                        <String fx:value="Travel/Subsidence"/>
+                        <String fx:value="Postage"/>
+                        <String fx:value="Bank charges"/>
+                        <String fx:value="Miscellaneous"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <Label text="Amount: " GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="amountField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Date: " GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="dateField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </GridPane>
+    </content>
+</DialogPane>

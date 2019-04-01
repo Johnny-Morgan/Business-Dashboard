@@ -13,7 +13,6 @@ import java.util.Locale;
 
 /**
  * Created by Johnny on 28/02/2019
- *
  */
 public class CustomerDialogController {
 
@@ -40,21 +39,9 @@ public class CustomerDialogController {
         String email = emailField.getText();
         String date = dateField.getValue().toString();
 
-//        if(!isInt(firstNameField, "Invalid First Name")){
-//            Customer newCustomer = new Customer(firstName, lastName, phoneNum, email);
-//            return newCustomer;
-//        }else {
-//            Customer newCustomer = new Customer("INVALID", lastName, phoneNum, email);
-//            return newCustomer;
-//        }
 
-        if (isInt(phoneNumField, "Invalid Phone Number")) {
-            Customer newCustomer = new Customer(firstName, lastName, phoneNum, email, date);
-            return newCustomer;
-        } else {
-            Customer newCustomer = new Customer(firstName, lastName, "Invalid No.", email, date);
-            return newCustomer;
-        }
+        Customer newCustomer = new Customer(firstName, lastName, phoneNum, email, date);
+        return newCustomer;
 
         /*
 
