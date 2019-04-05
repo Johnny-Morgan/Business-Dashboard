@@ -1,12 +1,18 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import sample.datamodel.Customer;
 import sample.datamodel.Expense;
 import sample.datamodel.ExpenseData;
@@ -27,6 +33,10 @@ public class ExpenseController {
     @FXML
     private TableView<Expense> expensesTable;
     private ExpenseData data;
+
+    private final ObservableList<PieChart.Data> details = FXCollections.observableArrayList();
+    private javafx.scene.chart.PieChart pieChart;
+    private BorderPane root;
 
     public void initialize(){
         data = new ExpenseData();
@@ -150,5 +160,32 @@ public class ExpenseController {
                 }
             }
         }
+    }
+
+    @FXML
+    public void showPieChart(){
+        Stage pieStage = new Stage();
+
+        // hardcoded expense data
+        details.addAll(new javafx.scene.chart.PieChart.Data("Motor", 1440),
+                new javafx.scene.chart.PieChart.Data("Advertising", 1200),
+                new javafx.scene.chart.PieChart.Data("Stationary & Postage", 461),
+                new javafx.scene.chart.PieChart.Data("Telephone & Internet", 720),
+                new javafx.scene.chart.PieChart.Data("Heat & Light", 343),
+                new javafx.scene.chart.PieChart.Data("Meetings & Events", 755),
+                new javafx.scene.chart.PieChart.Data("Bank Charges", 300),
+                new javafx.scene.chart.PieChart.Data("Accountancy Fees", 489));
+
+        pieChart = new javafx.scene.chart.PieChart();
+        pieChart.setData(details);
+        pieChart.setTitle("Business Expenses");
+        pieChart.setLegendSide(Side.BOTTOM);
+        pieChart.setLabelsVisible(true);
+        pieChart.setStartAngle(90);
+
+        root = new BorderPane();
+        root.setCenter(pieChart);
+        pieStage.setScene(new Scene(root, 600 , 500));
+        pieStage.show();
     }
 }

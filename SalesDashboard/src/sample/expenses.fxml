@@ -79,6 +79,17 @@
                     </HBox.margin>
                 </Button>
 
+                <Button fx:id="pieChartButton" text="Pie Chart" onAction="#showPieChart" style="-fx-background-color: black; -fx-text-fill: white">
+                    <tooltip>
+                        <Tooltip text="Show pie chart"/>
+                    </tooltip>
+                    <HBox.margin>
+                        <Insets>
+                            <top>10</top>
+                        </Insets>
+                    </HBox.margin>
+                </Button>
+
             </HBox>
         </bottom>
 
