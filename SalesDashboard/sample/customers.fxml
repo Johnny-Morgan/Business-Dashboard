@@ -1,0 +1,94 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="mainPanel" fx:controller="sample.CustomerController" xmlns:fx="http://javafx.com/fxml">
+
+<BorderPane prefWidth="1000" prefHeight="510">
+    <top>
+        <!--<MenuBar>-->
+            <!--<menus>-->
+                <!--<Menu text="Customers">-->
+                    <!--<items>-->
+                        <!--<MenuItem text="Add..." onAction="#showAddCustomerDialog"/>-->
+                        <!--<MenuItem text="Edit..." onAction="#showEditCustomerDialog"/>-->
+                        <!--<MenuItem text="Delete" onAction="#deleteCustomer"/>-->
+                    <!--</items>-->
+                <!--</Menu>-->
+            <!--</menus>-->
+        <!--</MenuBar>-->
+    </top>
+    <center>
+        <TableView fx:id="customersTable" onKeyPressed="#handleKeyPressed" onMouseClicked="#enableButtons">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn text="First Name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="firstName"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Last Name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="lastName"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Phone Number">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="phoneNum"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Email Address">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="email"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Last contacted">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="date"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" maxHeight="15">
+
+            <Button text="Add New Customer" onAction="#showAddCustomerDialog" style="-fx-background-color: green; -fx-text-fill: white">
+                <tooltip>
+                    <Tooltip text="Add a New Customer"/>
+                </tooltip>
+                <HBox.margin>
+                    <Insets>
+                        <top>10</top>
+                    </Insets>
+                </HBox.margin>
+            </Button>
+
+            <Button fx:id="editButton" text="Edit Customer Details" onAction="#showEditCustomerDialog" style="-fx-background-color: #3498db; -fx-text-fill: white">
+                <tooltip>
+                    <Tooltip text="Edit Customer Details"/>
+                </tooltip>
+                <HBox.margin>
+                    <Insets>
+                        <top>10</top>
+                    </Insets>
+                </HBox.margin>
+            </Button>
+
+            <Button fx:id="deleteButton" text="Delete Customer" onAction="#deleteCustomer" style="-fx-background-color: #e74c3c; -fx-text-fill: white">
+                <tooltip>
+                    <Tooltip text="Delete a Customer"/>
+                </tooltip>
+                <HBox.margin>
+                    <Insets>
+                        <top>10</top>
+                    </Insets>
+                </HBox.margin>
+            </Button>
+
+        </HBox>
+    </bottom>
+</BorderPane>
+</AnchorPane>

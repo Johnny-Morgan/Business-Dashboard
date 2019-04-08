@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.Main">
+
+    <TabPane tabClosingPolicy="UNAVAILABLE">
+
+        <Tab text="Customers">
+            <fx:include  source="customers.fxml"/>
+        </Tab>
+
+        <Tab text="Todo List">
+            <fx:include source="todo.fxml"/>
+        </Tab>
+
+        <!--<Tab text="Sales">-->
+            <!--<fx:include source="sales.fxml"/>-->
+        <!--</Tab>-->
+
+        <Tab text="Expenses">
+            <fx:include source="expenses.fxml"/>
+        </Tab>
+    </TabPane>
+
+
+</AnchorPane>
+
+
+
+
