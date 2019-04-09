@@ -25,6 +25,7 @@
             <ComboBox fx:id="categoryField" GridPane.rowIndex="1" GridPane.columnIndex="1">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Advertising"/>
                         <String fx:value="Motor"/>
                         <String fx:value="Phone/Broadband"/>
                         <String fx:value="Heat/Light"/>

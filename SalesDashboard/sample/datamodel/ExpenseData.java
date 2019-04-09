@@ -25,6 +25,7 @@ public class ExpenseData {
     private static final String DATE = "date";
     private ObservableList<Expense> expenses;
 
+    private static ArrayList<String> pieDataAdvertising = new ArrayList<>();
     private static ArrayList<String> pieDataMotor = new ArrayList<>();
     private static ArrayList<String> pieDataPhone = new ArrayList<>();
     private static ArrayList<String> pieDataHeat = new ArrayList<>();
@@ -89,7 +90,9 @@ public class ExpenseData {
                             .equals(AMOUNT)) {
                         event = eventReader.nextEvent();
                         Expense.setAmount(event.asCharacters().getData());
-                        if(Expense.getCategory().equals("Motor"))
+                        if(Expense.getCategory().equals("Advertising"))
+                            pieDataAdvertising.add(Expense.getAmount());
+                        else if(Expense.getCategory().equals("Motor"))
                             pieDataMotor.add(Expense.getAmount());
                         else if(Expense.getCategory().equals("Phone/Broadband"))
                             pieDataPhone.add(Expense.getAmount());
@@ -128,6 +131,13 @@ public class ExpenseData {
         }
     }
 
+    public static double getPieDataAdvertising() {
+        double total = 0;
+        for(String s:pieDataAdvertising){
+            total += Double.parseDouble(s);
+        }
+        return total;
+    }
     public static double getPieDataMotor() {
         double total = 0;
         for(String s:pieDataMotor){
