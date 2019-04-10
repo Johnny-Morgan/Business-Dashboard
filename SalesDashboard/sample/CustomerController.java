@@ -67,13 +67,26 @@ public class CustomerController {
             CustomerDialogController customerDialogController = fxmlLoader.getController();
             Customer newCustomer = customerDialogController.getNewCustomer();
 
-            boolean check = validateFields(newCustomer) && validateFirstName(newCustomer) &&
-                    validateLastName(newCustomer) && validatePhoneNum(newCustomer) && validateEmail(newCustomer);
-            if (check) {
-                data.addCustomer(newCustomer);
-                data.saveCustomers();
-            } else {
-                showAddCustomerDialog();
+            boolean check = false;
+            while (!check) {
+                check = validateFields(newCustomer) && validateFirstName(newCustomer) &&
+                        validateLastName(newCustomer) && validatePhoneNum(newCustomer) && validateEmail(newCustomer)
+                        && validateDate(newCustomer);
+                if (check) {
+                    data.addCustomer(newCustomer);
+                    data.saveCustomers();
+                    break;
+                } else {
+                    customerDialogController = fxmlLoader.getController();
+                    customerDialogController.editCustomer(newCustomer);
+
+                    result = dialog.showAndWait();
+
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        customerDialogController.updateCustomer(newCustomer);
+                        data.saveCustomers();
+                    } else return;
+                }
             }
         }
     }
@@ -169,7 +182,7 @@ public class CustomerController {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid info");
             alert.setHeaderText(null);
-            alert.setContentText("Invalid info. Please try again");
+            alert.setContentText("Invalid info.\nAll fields must be filled.");
             alert.showAndWait();
             return false;
         }
@@ -237,4 +250,17 @@ public class CustomerController {
         }
     }
 
+    public boolean validateDate(Customer customer) {
+
+        if ((!customer.getDate().equals(null))) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Info");
+            alert.setHeaderText(null);
+            alert.setContentText("No Date Entered.\nPlease Enter Date.");
+            alert.showAndWait();
+            return false;
+        }
+    }
 }

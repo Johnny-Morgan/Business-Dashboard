@@ -37,30 +37,13 @@ public class CustomerDialogController {
         String lastName = lastNameField.getText();
         String phoneNum = phoneNumField.getText();
         String email = emailField.getText();
-        String date = dateField.getValue().toString();
-
-
-        Customer newCustomer = new Customer(firstName, lastName, phoneNum, email, date);
-        return newCustomer;
-
-        /*
-
-        verify input, check fields aren't empty
-        only enable dialog ok button when required fields are filled in by user
-
-         */
-    }
-
-    private boolean isInt(TextField input, String message) {
-        try {
-            Integer.parseInt(input.getText());
-            return true;
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, message);
-            alert.setTitle("Invalid Data");
-            alert.showAndWait();
-            return false;
+        String date;
+        if(dateField.getValue() != null)
+            date = dateField.getValue().toString();
+        else {
+            date = "Invalid Date";
         }
+        return new Customer(firstName, lastName, phoneNum, email, date);
     }
 
     public void editCustomer(Customer customer) {
@@ -79,11 +62,13 @@ public class CustomerDialogController {
         customer.setDate(dateField.getValue().toString());
     }
 
-
     // Method to convert String date to LocalDate
     public LocalDate convertDate(String stringDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        return LocalDate.parse(stringDate, formatter);
+        if(stringDate.equals("Invalid Date"))
+            return LocalDate.now();
+        else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+            return LocalDate.parse(stringDate, formatter);
+        }
     }
-
 }

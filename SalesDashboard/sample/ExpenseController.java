@@ -167,6 +167,7 @@ public class ExpenseController {
     public void showPieChart(){
         Stage pieStage = new Stage();
 
+        double advertisingExpenses = ExpenseData.getPieDataAdvertising();
         double motorExpenses = ExpenseData.getPieDataMotor();
         double phoneExpenses = ExpenseData.getPieDataPhone();
         double heatExpenses = ExpenseData.getPieDataHeat();
@@ -175,7 +176,8 @@ public class ExpenseController {
         double bankExpenses = ExpenseData.getPieDataBank();
         double miscExpenses = ExpenseData.getPieDataMisc();
 
-        details.addAll(new javafx.scene.chart.PieChart.Data("Motor", motorExpenses),
+        details.addAll(new javafx.scene.chart.PieChart.Data("Advertising", advertisingExpenses),
+                new javafx.scene.chart.PieChart.Data("Motor", motorExpenses),
                 new javafx.scene.chart.PieChart.Data("Stationary & Postage", postageExpenses),
                 new javafx.scene.chart.PieChart.Data("Phone & Broadband", phoneExpenses),
                 new javafx.scene.chart.PieChart.Data("Heat & Light", heatExpenses),
