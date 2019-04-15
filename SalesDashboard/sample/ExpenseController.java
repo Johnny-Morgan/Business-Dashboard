@@ -20,6 +20,8 @@ import sample.datamodel.ExpenseData;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExpenseController {
 
@@ -73,18 +75,37 @@ public class ExpenseController {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
         Optional<ButtonType> result = dialog.showAndWait();
+
         if(result.isPresent() && result.get() == ButtonType.OK){
             ExpenseDialogController expenseDialogController = fxmlLoader.getController();
             Expense newExpense = expenseDialogController.getNewExpense();
-            data.addExpense(newExpense);
-            data.saveExpenses();
+
+            boolean check = false;
+            while (!check) {
+                check = validateFields(newExpense) && validateDate(newExpense) && validateAmount(newExpense);
+                if (check) {
+                    data.addExpense(newExpense);
+                    data.saveExpenses();
+                    break;
+                } else {
+                    expenseDialogController = fxmlLoader.getController();
+                    expenseDialogController.editExpense(newExpense);
+
+                    result = dialog.showAndWait();
+
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        expenseDialogController.updateExpense(newExpense);
+                        data.saveExpenses();
+                    } else return;
+                }
+            }
         }
     }
 
     @FXML
-    public void showEditExpenseDialog(){
+    public void showEditExpenseDialog() {
         Expense selectedExpense = expensesTable.getSelectionModel().getSelectedItem();
-        if(selectedExpense == null){
+        if (selectedExpense == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("No Expense Selected");
             alert.setHeaderText(null);
@@ -98,9 +119,9 @@ public class ExpenseController {
         dialog.setTitle("Edit Expense");
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("expensedialog.fxml"));
-        try{
+        try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("Couldn't load the dialog");
             e.printStackTrace();
             return;
@@ -113,9 +134,26 @@ public class ExpenseController {
         expenseDialogController.editExpense(selectedExpense);
 
         Optional<ButtonType> result = dialog.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             expenseDialogController.updateExpense(selectedExpense);
-            data.saveExpenses();
+            boolean check = false;
+            while (!check) {
+                check = validateFields(selectedExpense) && validateDate(selectedExpense) && validateAmount(selectedExpense);
+                if (check) {
+                    data.saveExpenses();
+                    break;
+                } else {
+                    expenseDialogController = fxmlLoader.getController();
+                    expenseDialogController.editExpense(selectedExpense);
+
+                    result = dialog.showAndWait();
+
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        expenseDialogController.updateExpense(selectedExpense);
+                        data.saveExpenses();
+                    } else return;
+                }
+            }
         }
     }
 
@@ -202,11 +240,48 @@ public class ExpenseController {
                 details.clear();
             }
         });
-
-
     }
 
-    public void testClose(){
-        System.out.println("closing pie chart");
+    // check to see if fields are empty
+    public boolean validateFields(Expense expense) {
+
+        if (expense.getDescription().trim().isEmpty() || expense.getCategory().trim().isEmpty() ||
+                expense.getAmount().trim().isEmpty() || expense.getDate().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid info");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid info.\nAll fields must be filled.");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validateDate(Expense expense) {
+        if ((!expense.getDate().equals(null))) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Info");
+            alert.setHeaderText(null);
+            alert.setContentText("No Date Entered.\nPlease Enter Date.");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
+    public boolean validateAmount(Expense expense) {
+        Pattern p = Pattern.compile("[0-9.]+");
+        Matcher m = p.matcher(expense.getAmount());
+        if (m.find() && m.group().equals(expense.getAmount())) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Info");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Enter Valid Expense Amount");
+            alert.showAndWait();
+            return false;
+        }
     }
 }

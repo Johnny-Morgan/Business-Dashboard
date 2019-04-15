@@ -125,7 +125,26 @@ public class CustomerController {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             customerDialogController.updateCustomer(selectedCustomer);
-            data.saveCustomers();
+            boolean check = false;
+            while (!check) {
+                check = validateFields(selectedCustomer) && validateFirstName(selectedCustomer) &&
+                        validateLastName(selectedCustomer) && validatePhoneNum(selectedCustomer) &&
+                        validateEmail(selectedCustomer) && validateDate(selectedCustomer);
+                if (check) {
+                    data.saveCustomers();
+                    break;
+                } else {
+                    customerDialogController = fxmlLoader.getController();
+                    customerDialogController.editCustomer(selectedCustomer);
+
+                    result = dialog.showAndWait();
+
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        customerDialogController.updateCustomer(selectedCustomer);
+                        data.saveCustomers();
+                    } else return;
+                }
+            }
         }
     }
 
@@ -175,10 +194,8 @@ public class CustomerController {
 
     // check to see if fields are empty
     public boolean validateFields(Customer customer) {
-
-        if (customer.getFirstName().trim().isEmpty() ||
-                customer.getLastName().trim().isEmpty() || customer.getPhoneNum().trim().isEmpty() ||
-                customer.getEmail().trim().isEmpty() || customer.getDate().trim().isEmpty()) {
+        if(isEmpty(customer.getFirstName(), customer.getLastName(), customer.getPhoneNum(),
+                customer.getEmail(), customer.getDate())){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid info");
             alert.setHeaderText(null);
@@ -187,7 +204,6 @@ public class CustomerController {
             return false;
         }
         return true;
-
     }
 
     public boolean validateFirstName(Customer customer) {
@@ -251,7 +267,6 @@ public class CustomerController {
     }
 
     public boolean validateDate(Customer customer) {
-
         if ((!customer.getDate().equals(null))) {
             return true;
         } else {
@@ -262,5 +277,14 @@ public class CustomerController {
             alert.showAndWait();
             return false;
         }
+    }
+
+    public boolean isEmpty(String... strArr){
+        for(String str: strArr){
+            if(str.trim().isEmpty()){
+                return true;
+            }
+        }
+        return false;
     }
 }
