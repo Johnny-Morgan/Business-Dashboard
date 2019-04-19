@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
+import sample.datamodel.Expense;
 import sample.datamodel.TodoData;
 import sample.datamodel.TodoItem;
 
@@ -187,10 +188,24 @@ public class TodoController {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         Optional<ButtonType> result = dialog.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+        if (result.isPresent() && result.get() == ButtonType.OK ) {
             TodoDialogController controller = fxmlLoader.getController();
             TodoItem newItem = controller.processResults();
-            todoListView.getSelectionModel().select(newItem);
+            boolean check = false;
+            while(!check) {
+                if (newItem != null) {
+                    todoListView.getSelectionModel().select(newItem);
+                    check = true;
+                }
+                else {
+                    result = dialog.showAndWait();
+                    newItem = controller.processResults();
+                    if(result.get()==ButtonType.CANCEL){
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -290,10 +305,26 @@ public class TodoController {
 
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            todoDialogController.updateItem(selectedItem);
-            todoListView.getSelectionModel().selectFirst();
+            TodoDialogController controller = fxmlLoader.getController();
+            TodoItem newItem = controller.processResults();
+            boolean check = false;
+            while(!check) {
+                if (newItem != null) {
+                    todoDialogController.updateItem(selectedItem);
+                    todoListView.getSelectionModel().selectFirst();
+                    check = true;
+                }
+                else {
+                    result = dialog.showAndWait();
+                    newItem = controller.processResults();
+                    if(result.get()==ButtonType.CANCEL){
+                        break;
+                    }
+                }
+            }
         }
     }
+
 
     // close down application
     @FXML
