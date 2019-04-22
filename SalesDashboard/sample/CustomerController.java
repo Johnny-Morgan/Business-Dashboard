@@ -10,6 +10,10 @@ import sample.datamodel.Customer;
 import sample.datamodel.CustomerData;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -194,8 +198,8 @@ public class CustomerController {
 
     // check to see if fields are empty
     public boolean validateFields(Customer customer) {
-        if(isEmpty(customer.getFirstName(), customer.getLastName(), customer.getPhoneNum(),
-                customer.getEmail(), customer.getDate())){
+        if (isEmpty(customer.getFirstName(), customer.getLastName(), customer.getPhoneNum(),
+                customer.getEmail(), customer.getDate())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid info");
             alert.setHeaderText(null);
@@ -279,12 +283,41 @@ public class CustomerController {
         }
     }
 
-    public boolean isEmpty(String... strArr){
-        for(String str: strArr){
-            if(str.trim().isEmpty()){
+    public boolean isEmpty(String... strArr) {
+        for (String str : strArr) {
+            if (str.trim().isEmpty()) {
                 return true;
             }
         }
         return false;
+    }
+
+    // method to display customers who have not been contacted in over a month
+    public void showCustomers() {
+        List<String> customerList = new ArrayList<>();
+        for (int i = 0; i < customersTable.getItems().size(); i++) {
+            Customer customer = customersTable.getItems().get(i);
+            LocalDate date = LocalDate.parse(customer.getDate());
+            if (date.plusMonths(1).isBefore(LocalDate.now())) {
+                customerList.add(customer.getFirstName() + " " + customer.getLastName());
+            }
+        }
+        String message = "";
+        for (String customer : customerList) {
+            message += customer + "\n";
+        }
+        if (message.equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("The following customers need to contacted this week");
+            alert.setHeaderText(null);
+            alert.setContentText("No customers to be contacted today");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("The following customers need to contacted today");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        }
     }
 }

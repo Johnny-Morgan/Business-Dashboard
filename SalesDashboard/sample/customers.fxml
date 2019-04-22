@@ -87,6 +87,16 @@
                     </Insets>
                 </HBox.margin>
             </Button>
+            <Button fx:id="showButton" text="This Weeks Customers" onAction="#showCustomers" style="-fx-background-color: black; -fx-text-fill: white">
+                <tooltip>
+                    <Tooltip text="Show this weeks customers"/>
+                </tooltip>
+                <HBox.margin>
+                    <Insets>
+                        <top>10</top>
+                    </Insets>
+                </HBox.margin>
+            </Button>
 
         </HBox>
     </bottom>
