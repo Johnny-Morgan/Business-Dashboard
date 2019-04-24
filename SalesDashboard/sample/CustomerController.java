@@ -1,13 +1,18 @@
 package sample;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import sample.datamodel.Customer;
 import sample.datamodel.CustomerData;
+import sample.datamodel.TodoItem;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -28,6 +33,8 @@ public class CustomerController {
     private Button editButton;
     @FXML
     private Button deleteButton;
+    @FXML
+    private ContextMenu listContextMenu;
 
     private CustomerData data;
 
@@ -37,6 +44,16 @@ public class CustomerController {
         customersTable.setItems(data.getCustomers());
         editButton.setDisable(true);
         deleteButton.setDisable(true);
+
+        listContextMenu = new ContextMenu();
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        MenuItem editMenuItem = new MenuItem("Edit");
+
+        deleteMenuItem.setOnAction((ActionEvent event) -> deleteCustomer());
+        editMenuItem.setOnAction((ActionEvent event) -> showEditCustomerDialog());
+
+        listContextMenu.getItems().addAll(deleteMenuItem, editMenuItem);
+        customersTable.setContextMenu(listContextMenu);
     }
 
     public void enableButtons() {
@@ -307,13 +324,13 @@ public class CustomerController {
             message += customer + "\n";
         }
         if (message.equals("")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("The following customers need to contacted this week");
             alert.setHeaderText(null);
             alert.setContentText("No customers to be contacted today");
             alert.showAndWait();
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("The following customers need to contacted today");
             alert.setHeaderText(null);
             alert.setContentText(message);
