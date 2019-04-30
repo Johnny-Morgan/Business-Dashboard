@@ -2,6 +2,7 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,9 +33,10 @@ public class ExpenseController {
     private Button editButton;
     @FXML
     private Button deleteButton;
-
     @FXML
     private TableView<Expense> expensesTable;
+    @FXML
+    private ContextMenu listContextMenu;
     private ExpenseData data;
 
     private final ObservableList<PieChart.Data> details = FXCollections.observableArrayList();
@@ -47,6 +49,16 @@ public class ExpenseController {
         expensesTable.setItems(data.getExpenses());
         editButton.setDisable(true);
         deleteButton.setDisable(true);
+
+        listContextMenu = new ContextMenu();
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        MenuItem editMenuItem = new MenuItem("Edit");
+
+        deleteMenuItem.setOnAction((ActionEvent event) -> deleteExpense());
+        editMenuItem.setOnAction((ActionEvent event) -> showEditExpenseDialog());
+
+        listContextMenu.getItems().addAll(deleteMenuItem, editMenuItem);
+        expensesTable.setContextMenu(listContextMenu);
     }
 
     public void enableButtons() {
@@ -202,7 +214,7 @@ public class ExpenseController {
     }
 
     @FXML
-    public void showPieChart(){
+    public void showPieChart() {
         Stage pieStage = new Stage();
 
         double advertisingExpenses = ExpenseData.getPieDataAdvertising();
@@ -232,14 +244,11 @@ public class ExpenseController {
 
         root = new BorderPane();
         root.setCenter(pieChart);
-        pieStage.setScene(new Scene(root, 600 , 500));
+        pieStage.setScene(new Scene(root, 600, 500));
+        pieStage.setTitle("Business Dashboard");
         pieStage.show();
 
-        pieStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                details.clear();
-            }
-        });
+        pieStage.setOnCloseRequest((WindowEvent we) -> details.clear());
     }
 
     // check to see if fields are empty
