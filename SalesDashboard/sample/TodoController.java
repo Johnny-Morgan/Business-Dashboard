@@ -16,7 +16,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
-import sample.datamodel.Expense;
 import sample.datamodel.TodoData;
 import sample.datamodel.TodoItem;
 
@@ -35,15 +34,12 @@ import java.util.function.Predicate;
 public class TodoController {
     @FXML
     private AnchorPane mainPanelTodo;
-    private List<TodoItem> todoItems;
     @FXML
     private ListView<TodoItem> todoListView;
     @FXML
     private TextArea itemDetailsTextArea;
     @FXML
     private Label deadlineLabel;
-    @FXML
-    private BorderPane mainBorderPane;
     @FXML
     private ContextMenu listContextMenu;
     @FXML
@@ -66,21 +62,12 @@ public class TodoController {
         MenuItem deleteMenuItem = new MenuItem("Delete");
         MenuItem editMenuItem = new MenuItem("Edit");
 
-        deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                TodoItem item = todoListView.getSelectionModel().getSelectedItem();
-                deleteItem(item);
-            }
+        deleteMenuItem.setOnAction((ActionEvent event) -> {
+            TodoItem item = todoListView.getSelectionModel().getSelectedItem();
+            deleteItem(item);
         });
 
-        editMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                TodoItem item = todoListView.getSelectionModel().getSelectedItem();
-                showEditTodoItemDialog();
-            }
-        });
+        editMenuItem.setOnAction((ActionEvent event) -> showEditTodoItemDialog());
 
         listContextMenu.getItems().addAll(deleteMenuItem, editMenuItem);
 
@@ -146,7 +133,6 @@ public class TodoController {
                         }
                     }
                 };
-
                 cell.emptyProperty().addListener(
                         (obs, wasEmpty, isNowEmpty) -> {
                             if (isNowEmpty) {
@@ -155,7 +141,6 @@ public class TodoController {
                                 cell.setContextMenu(listContextMenu);
                             }
                         });
-
                 return cell;
             }
         });
@@ -174,7 +159,6 @@ public class TodoController {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(mainPanelTodo.getScene().getWindow());
         dialog.setTitle("Add New Todo Item");
-        dialog.setHeaderText("Use this dialog to create a new todo item");
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("todoItemDialog.fxml"));
 
@@ -189,19 +173,18 @@ public class TodoController {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         Optional<ButtonType> result = dialog.showAndWait();
 
-        if (result.isPresent() && result.get() == ButtonType.OK ) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             TodoDialogController controller = fxmlLoader.getController();
             TodoItem newItem = controller.processResults();
             boolean check = false;
-            while(!check) {
+            while (!check) {
                 if (newItem != null) {
                     todoListView.getSelectionModel().select(newItem);
                     check = true;
-                }
-                else {
+                } else {
                     result = dialog.showAndWait();
                     newItem = controller.processResults();
-                    if(result.get()==ButtonType.CANCEL){
+                    if (result.get() == ButtonType.CANCEL) {
                         break;
                     }
                 }
@@ -213,8 +196,8 @@ public class TodoController {
     @FXML
     public void handleKeyPressed(KeyEvent keyEvent) {
         TodoItem selectedItem = todoListView.getSelectionModel().getSelectedItem();
-        if(selectedItem != null){
-            if(keyEvent.getCode().equals(KeyCode.DELETE)){
+        if (selectedItem != null) {
+            if (keyEvent.getCode().equals(KeyCode.DELETE)) {
                 deleteItem(selectedItem);
             }
         }
@@ -225,7 +208,6 @@ public class TodoController {
         TodoItem item = todoListView.getSelectionModel().getSelectedItem();
         itemDetailsTextArea.setText(item.getDetails());
         deadlineLabel.setText(item.getDeadline().toString());
-
     }
 
     public void deleteItem(TodoItem item) {
@@ -241,19 +223,19 @@ public class TodoController {
     }
 
     @FXML
-    public void handleFilterButton(){
+    public void handleFilterButton() {
         TodoItem selectedItem = todoListView.getSelectionModel().getSelectedItem();
-        if(filterToggleButton.isSelected()){
+        if (filterToggleButton.isSelected()) {
             filteredList.setPredicate(wantTodaysItems);
-            if(filteredList.isEmpty()){
+            if (filteredList.isEmpty()) {
                 itemDetailsTextArea.clear();
                 deadlineLabel.setText("");
-            }else if(filteredList.contains(selectedItem)){
+            } else if (filteredList.contains(selectedItem)) {
                 todoListView.getSelectionModel().select(selectedItem);
-            }else{
+            } else {
                 todoListView.getSelectionModel().selectFirst();
             }
-        }else{
+        } else {
             filteredList.setPredicate(wantAllItems);
             todoListView.getSelectionModel().select(selectedItem);
         }
@@ -307,17 +289,17 @@ public class TodoController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             TodoDialogController controller = fxmlLoader.getController();
             TodoItem newItem = controller.processResults();
+            TodoData.getInstance().deleteTodoItem(selectedItem);
             boolean check = false;
-            while(!check) {
+            while (!check) {
                 if (newItem != null) {
                     todoDialogController.updateItem(selectedItem);
                     todoListView.getSelectionModel().selectFirst();
                     check = true;
-                }
-                else {
+                } else {
                     result = dialog.showAndWait();
                     newItem = controller.processResults();
-                    if(result.get()==ButtonType.CANCEL){
+                    if (result.get() == ButtonType.CANCEL) {
                         break;
                     }
                 }
@@ -326,9 +308,15 @@ public class TodoController {
     }
 
 
-    // close down application
+    // Close down application
     @FXML
-    public void handleExit(){
-        Platform.exit();
+    public void exitApplication() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Business Dashboard");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to exit?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && (result.get() == ButtonType.OK))
+            Platform.exit();
     }
 }
