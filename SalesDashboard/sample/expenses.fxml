@@ -79,9 +79,20 @@
                     </HBox.margin>
                 </Button>
 
-                <Button fx:id="pieChartButton" text="Pie Chart"  onAction="#showPieChart" style="-fx-background-color: black; -fx-text-fill: white">
+                <Button fx:id="pieChartButton" text="Graph Expenses"  onAction="#showPieChart" style="-fx-background-color: #e17055; -fx-text-fill: white">
                     <tooltip>
                         <Tooltip text="Show pie chart"/>
+                    </tooltip>
+                    <HBox.margin>
+                        <Insets>
+                            <top>10</top>
+                        </Insets>
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="exitButton" text="Exit" onAction="#exitApplication"
+                        style="-fx-background-color: black; -fx-text-fill: white" prefWidth="75" textAlignment="CENTER">
+                    <tooltip>
+                        <Tooltip text="Exit Application"/>
                     </tooltip>
                     <HBox.margin>
                         <Insets>

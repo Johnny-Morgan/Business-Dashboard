@@ -87,9 +87,20 @@
                     </Insets>
                 </HBox.margin>
             </Button>
-            <Button fx:id="showButton" text="This Weeks Customers" onAction="#showCustomers" style="-fx-background-color: black; -fx-text-fill: white">
+            <Button fx:id="showButton" text="This Weeks Customers" onAction="#showCustomers" style="-fx-background-color: #e17055; -fx-text-fill: white">
                 <tooltip>
-                    <Tooltip text="Show this weeks customers"/>
+                    <Tooltip text="Show this week's customers"/>
+                </tooltip>
+                <HBox.margin>
+                    <Insets>
+                        <top>10</top>
+                    </Insets>
+                </HBox.margin>
+            </Button>
+            <Button fx:id="exitButton" text="Exit" onAction="#exitApplication"
+                    style="-fx-background-color: black; -fx-text-fill: white" prefWidth="75" textAlignment="CENTER">
+                <tooltip>
+                    <Tooltip text="Exit Application"/>
                 </tooltip>
                 <HBox.margin>
                     <Insets>

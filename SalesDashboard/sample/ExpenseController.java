@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -288,9 +289,21 @@ public class ExpenseController {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid Info");
             alert.setHeaderText(null);
-            alert.setContentText("Please Enter Valid Expense Amount");
+            alert.setContentText("Please Enter Valid Expense Amount\nA number should be added e.g. 99.99");
             alert.showAndWait();
             return false;
         }
+    }
+
+    // Close down application
+    @FXML
+    public void exitApplication() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Business Dashboard");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to exit?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && (result.get() == ButtonType.OK))
+            Platform.exit();
     }
 }

@@ -1,22 +1,18 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import sample.datamodel.Customer;
 import sample.datamodel.CustomerData;
-import sample.datamodel.TodoItem;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -331,10 +327,22 @@ public class CustomerController {
             alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("The following customers need to contacted today");
+            alert.setTitle("The following customers need to contacted this week");
             alert.setHeaderText(null);
             alert.setContentText(message);
             alert.showAndWait();
         }
+    }
+
+    // Close down application
+    @FXML
+    public void exitApplication() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Business Dashboard");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to exit?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && (result.get() == ButtonType.OK))
+            Platform.exit();
     }
 }
