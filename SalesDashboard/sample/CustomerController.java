@@ -321,13 +321,13 @@ public class CustomerController {
         }
         if (message.equals("")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("The following customers need to contacted this week");
+            alert.setTitle("The following customers need to be contacted this week");
             alert.setHeaderText(null);
             alert.setContentText("No customers to be contacted today");
             alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("The following customers need to contacted this week");
+            alert.setTitle("The following customers need to be contacted this week");
             alert.setHeaderText(null);
             alert.setContentText(message);
             alert.showAndWait();
